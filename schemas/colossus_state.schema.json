@@ -1,0 +1,48 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "ColossusState",
+  "type": "object",
+  "required": ["tick", "tier", "metrics", "resources", "organelleStates", "blah"],
+  "properties": {
+    "tick": { "type": "integer" },
+    "tier": { "type": "string", "enum": ["cell", "tissue", "organ", "organism", "colossus", "starship"] },
+
+    "metrics": {
+      "type": "object",
+      "required": ["warmth", "stability", "cost", "coherence"],
+      "properties": {
+        "warmth": { "type": "number" },
+        "stability": { "type": "number" },
+        "cost": { "type": "number" },
+        "coherence": { "type": "number" }
+      }
+    },
+
+    "resources": {
+      "type": "object",
+      "additionalProperties": { "type": "number" }
+    },
+
+    "organelleStates": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "required": ["utilization", "strain"],
+        "properties": {
+          "utilization": { "type": "number", "minimum": 0, "maximum": 1 },
+          "strain": { "type": "number", "minimum": 0 }
+        }
+      }
+    },
+
+    "blah": {
+      "type": "object",
+      "required": ["turbulence", "mood", "anomalyLevel"],
+      "properties": {
+        "turbulence": { "type": "number" },
+        "mood": { "type": "string", "enum": ["calm", "curious", "tense", "storming"] },
+        "anomalyLevel": { "type": "number" }
+      }
+    }
+  }
+}
