@@ -1,0 +1,8 @@
+{
+  "id": "chorus_step",
+  "type": "sync_event",
+  "durationTicks": 30,
+  "requiredRoles": ["resonant", "cytoskeleton", "membrane"],
+  "successEffects": { "stability": 0.2, "turbulence": -0.3, "resources.energy": 20 },
+  "failureEffects": { "cost": 0.2, "turbulence": 0.4, "strainAll": 0.1 }
+}
