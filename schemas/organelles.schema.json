@@ -1,0 +1,44 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "OrganelleSociety",
+  "type": "object",
+  "required": ["id", "name", "functionTags", "inputs", "outputs", "synergies"],
+  "properties": {
+    "id": { "type": "string" },
+    "name": { "type": "string" },
+    "functionTags": {
+      "type": "array",
+      "items": { "type": "string" },
+      "examples": [["energy", "logistics"], ["governance", "canon"]]
+    },
+    "inputs": {
+      "type": "object",
+      "additionalProperties": { "type": "number" },
+      "description": "Resources consumed per tick at baseline utilization"
+    },
+    "outputs": {
+      "type": "object",
+      "additionalProperties": { "type": "number" },
+      "description": "Resources produced per tick at baseline utilization"
+    },
+    "metricsInfluence": {
+      "type": "object",
+      "additionalProperties": { "type": "number" },
+      "description": "How this society affects global metrics (warmth, stability, cost, etc.)"
+    },
+    "synergies": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["with", "bonus"],
+        "properties": {
+          "with": { "type": "string" },
+          "bonus": {
+            "type": "object",
+            "additionalProperties": { "type": "number" }
+          }
+        }
+      }
+    }
+  }
+}
