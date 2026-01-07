@@ -1,0 +1,12 @@
+{
+  "id": "mitochondria",
+  "name": "Mitochondria Guilds",
+  "functionTags": ["energy", "economy"],
+  "inputs": { "nutrients": 3, "oxygen": 2 },
+  "outputs": { "energy": 6, "heat": 1 },
+  "metricsInfluence": { "stability": 0.2, "warmth": 0.1, "cost": 0.05 },
+  "synergies": [
+    { "with": "golgi", "bonus": { "tradeEfficiency": 0.1 } },
+    { "with": "cytoskeleton", "bonus": { "mobility": 0.1 } }
+  ]
+}
