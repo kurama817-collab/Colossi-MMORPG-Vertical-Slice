@@ -122,14 +122,13 @@ function computeGainCost(flows: ResourceFlows, strain: number): { gain: number; 
   return { gain, cost };
 }
 
-function computeCoherence(actions: PlayerAction[], events: SimulationEvent[]): number {
+function computeCoherence(actions: PlayerAction[]): number {
   const harmonyValues = actions.map((action) => action.harmony ?? 0);
   const averageHarmony = harmonyValues.length
     ? harmonyValues.reduce((sum, value) => sum + value, 0) / harmonyValues.length
     : 0;
-  const eventBonus = events.reduce((sum, event) => sum + (event.impact.coherence ?? 0), 0);
 
-  return clamp(averageHarmony + eventBonus, 0, 1);
+  return clamp(averageHarmony, 0, 1);
 }
 
 function updateStability(state: SimulationState, strain: number, coherence: number): number {
@@ -184,20 +183,22 @@ function maybeSpawnEvents(state: SimulationState): SimulationEvent[] {
 
 function applyEvents(state: SimulationState, events: SimulationEvent[]): void {
   for (const event of events) {
-    if (event.impact.energy) {
+    if (event.impact.energy !== undefined) {
       state.resources.energy += event.impact.energy;
     }
-    if (event.impact.nutrients) {
+    if (event.impact.nutrients !== undefined) {
       state.resources.nutrients += event.impact.nutrients;
     }
-    if (event.impact.coherence) {
+    if (event.impact.coherence !== undefined) {
       state.metrics.coherence = clamp(state.metrics.coherence + event.impact.coherence, 0, 1);
     }
-    if (event.impact.stability) {
+    if (event.impact.stability !== undefined) {
       state.metrics.stability = clamp(state.metrics.stability + event.impact.stability, 0, 1);
     }
   }
 
+  state.resources.energy = Math.max(0, state.resources.energy);
+  state.resources.nutrients = Math.max(0, state.resources.nutrients);
   state.activeEvents = events;
 }
 
@@ -226,7 +227,7 @@ export function tickSimulation(state: SimulationState, hooks: SimulationHooks = 
   const { gain, cost } = computeGainCost(flows, strain);
   state.metrics.warmth = calculateWarmth(gain, cost);
   const events = maybeSpawnEvents(state);
-  state.metrics.coherence = computeCoherence(actions, events);
+  state.metrics.coherence = computeCoherence(actions);
   state.metrics.stability = updateStability(state, strain, state.metrics.coherence);
 
   state.strain = strain;
