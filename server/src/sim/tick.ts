@@ -226,13 +226,13 @@ export function tickSimulation(state: SimulationState, hooks: SimulationHooks = 
 
   const { gain, cost } = computeGainCost(flows, strain);
   state.metrics.warmth = calculateWarmth(gain, cost);
-  const events = maybeSpawnEvents(state);
   state.metrics.coherence = computeCoherence(actions);
   state.metrics.stability = updateStability(state, strain, state.metrics.coherence);
 
   state.strain = strain;
   state.blah = updateBlah(state.metrics, state.blah);
 
+  const events = maybeSpawnEvents(state);
   applyEvents(state, events);
   maybeProgressTier(state);
 
